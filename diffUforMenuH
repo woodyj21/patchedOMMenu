@@ -1,0 +1,26 @@
+26a27,29
+> //trying to get to work
+> #define prog_char char PROGMEM
+> 
+77,83c80,86 < #define MENU_ITEM PROGMEM OMMenuItem < #define MENU_LIST PROGMEM OMMenuItem* < #define MENU_VALUE PROGMEM 
+OMMenuValue < #define MENU_FLAG PROGMEM OMMenuValueFlag < #define MENU_SELECT_ITEM PROGMEM OMMenuSelectListItem < #define 
+MENU_SELECT_LIST PROGMEM OMMenuSelectListItem* < #define MENU_SELECT PROGMEM OMMenuSelectValue ---
+> #define MENU_ITEM const PROGMEM OMMenuItem //added the const for progmem define MENU_LIST const PROGMEM OMMenuItem* define 
+> #MENU_VALUE const PROGMEM OMMenuValue define MENU_FLAG const PROGMEM OMMenuValueFlag define MENU_SELECT_ITEM const PROGMEM 
+> #OMMenuSelectListItem define MENU_SELECT_LIST const PROGMEM OMMenuSelectListItem* define MENU_SELECT const PROGMEM 
+> #OMMenuSelectValue
+86c89,91 < #define MENU_TARGET(x) reinterpret_cast<void*>(x) ---
+> //add line to make it work with new gcc //#define MENU_TARGET(x) reinterpret_cast<void*>(x)
+> #define MENU_TARGET(x) reinterpret_cast<const void*>(x)
+108c113,115 < void* list; ---
+> //add line to make it work with newer gcc // void* list;
+>     const void* list;
+144c151,153 < void* target; ---
+> //add line to make work with newer gcc // void* target;
+>     const void* target;
+160c169,171 < void* targetValue; ---
+> // add line to make work with newer gcc // void* targetValue;
+>     const void* targetValue;
+915c926,928 < OMMenuMgr(OMMenuItem* c_first, uint8_t c_type = MENU_ANALOG); ---
+> //add line to make work with newer gcc // OMMenuMgr(OMMenuItem* c_first, uint8_t c_type = MENU_ANALOG);
+>     OMMenuMgr(const OMMenuItem* c_first, uint8_t c_type = MENU_ANALOG);

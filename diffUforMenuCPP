@@ -1,0 +1,9 @@
+50,51c50,52 < < OMMenuMgr::OMMenuMgr(OMMenuItem* c_first, uint8_t c_type) { ---
+> /*change to work with newer gcc*/ //OMMenuMgr::OMMenuMgr(OMMenuItem* c_first, uint8_t c_type) { OMMenuMgr::OMMenuMgr(const 
+> OMMenuItem* c_first, uint8_t c_type) {
+54,55c55,58 < m_curParent = c_first; < m_rootItem = c_first; ---
+>  // m_curParent = c_first;
+>     m_curParent = const_cast<OMMenuItem*>(c_first); // m_rootItem = c_first; m_rootItem = const_cast<OMMenuItem*>(c_first);
+66a70,71
+> 
+> 
