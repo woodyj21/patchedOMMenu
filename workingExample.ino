@@ -113,7 +113,7 @@ MENU_ITEM item_state    = { {"Select Input"}, ITEM_VALUE,  0,        MENU_TARGET
 */
 MENU_ITEM item_testme   = { {"Test Action"},  ITEM_ACTION, 0,        MENU_TARGET(uiQwkScreen) };
 MENU_ITEM item_voltest  =  {  {"Set Volume"}, ITEM_ACTION, 0,       MENU_TARGET(uiSetVolume) };
-MENU_ITEM item_midiCCtoSend = {  {"Choose CC#"}, ITEM_VALUE, 0,  MENU_TARGET(&midiCCtoSend) };
+MENU_ITEM item_midiCCtoSend = {  {"Choose CC#"}, ITEM_VALUE, 0,  MENU_TARGET(&midiCCtoSend_value) };
 
                    //        List of items in menu level
 /*Comment out, but don't delete yet.
@@ -203,7 +203,7 @@ void uiQwkScreen() {
 }  
 
 void uiSetVolume(){
-  int myVar;
+  int myVar;		//using this as pedal value
   lcd.clear();
   Menu.enable(false);
   lcd.print("Volume is:");
@@ -215,7 +215,7 @@ void uiSetVolume(){
       lcd.clear();
       lcd.setCursor(0,2);
       lcd.print(myVar);
-      MIDI.sendControlChange(midiCCtoSend, myVar, 1);
+      MIDI.sendControlChange(midiCCtoSend, myVar, 1);    //trying to figure out midiCCtoSend
       delay(2);
     ; // wait!
   }
