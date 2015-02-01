@@ -19,6 +19,9 @@ created byte midiCCtoSend, in the menu, user will select which CC#
 to send to, then in "Set Volume" the peadal value will be sent
 to both the LCD screen and out on the midiCCtoSend
 
+I've got midiCCtoSend worked out.  The pedal value is sent to the
+CC# in a MIDI out CC message.  I belive I can start on working out
+the sub-menus now.
 
  
 */
@@ -207,16 +210,22 @@ void uiSetVolume(){
   lcd.clear();
   Menu.enable(false);
   lcd.print("Volume is:");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0,1);  //do i need this?
 
   
-    while( Menu.checkInput() != BUTTON_SELECT ) {
+    while( Menu.checkInput() != BUTTON_BACK ) {
       myVar = constrain(map(analogRead(A2), 0, 48, 0, 100), 0, 100);
       lcd.clear();
       lcd.setCursor(0,2);
+      lcd.print("Value:");
+      lcd.setCursor(6,2);
       lcd.print(myVar);
+      lcd.setCursor(9,2);
+      lcd.print("CC#:");
+      lcd.print(midiCCtoSend);
+      delay(20);
       MIDI.sendControlChange(midiCCtoSend, myVar, 1);    //trying to figure out midiCCtoSend
-      delay(2);
+      delay(20);
     ; // wait!
   }
   Menu.enable(true);
