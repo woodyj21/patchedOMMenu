@@ -10,7 +10,7 @@
 /**  Example OMMenuMgr Sketch
 This sketch is my base working model.  Code compiles.  I've added an
 addition menu item of "Set Volume", the value of pedal one is read,
-mapped 0 to 100, constrained then printed to LCD.
+mapped 0 to 127, constrained then printed to LCD.
 
 I have commented out the example menu items, leaving on the items
 I have created.  Will delete them in next update if all works
@@ -214,7 +214,7 @@ void uiSetVolume(){
 
   
     while( Menu.checkInput() != BUTTON_BACK ) {
-      myVar = constrain(map(analogRead(A2), 0, 48, 0, 100), 0, 100);
+      myVar = constrain(map(analogRead(A2), 0, 48, 0, 127), 0, 100);  //MIDI does 0-127
       lcd.clear();
       lcd.setCursor(0,2);
       lcd.print("Value:");
