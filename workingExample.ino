@@ -214,7 +214,7 @@ void uiSetVolume(){
 
   
     while( Menu.checkInput() != BUTTON_BACK ) {
-      myVar = constrain(map(analogRead(A2), 0, 48, 0, 127), 0, 100);  //MIDI does 0-127
+      myVar = constrain(map(analogRead(A2), 0, 48, 0, 127), 0, 127);  //MIDI does 0-127
       lcd.clear();
       lcd.setCursor(0,2);
       lcd.print("Value:");
