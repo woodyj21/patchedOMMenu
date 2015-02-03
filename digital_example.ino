@@ -1,11 +1,13 @@
-
-
 #include <Button.h>
 #include <midi_Settings.h>
 #include <midi_Message.h>
 #include <MIDI.h>
 #include <midi_Namespace.h>
 #include <midi_Defs.h>
+#include <OMEEPROM.h>
+#include <EEPROM.h>
+#include "OMMenuMgr.h"
+#include <LiquidCrystal.h>
 
 /**  Example OMMenuMgr Sketch
 This sketch is my base working model.  Code compiles.  I've added an
@@ -26,16 +28,25 @@ the sub-menus now.
 Added functionality for digital buttons vice the LCD analog ones.
 have to comment code in two places: in ini and in setup()
 
+Also adding in pedal #2 and the Wah switch, S1 which will be 
+the "select button" for menu
  
 */
 
-#include <OMEEPROM.h>
-#include <EEPROM.h>
-#include "OMMenuMgr.h"
-#include <LiquidCrystal.h>
+
 
  // ini pedal analog pin
-#define pedalOnePin = A2  //ini it in setup w/ pinMode()
+#define pedalOnePin = A1  //ini it in setup w/ pinMode()
+#define pedalTwoPin = A2  //same as above
+
+  //ini pedal push buttons  MUST setup pins with pinMode in setup()
+Button button5 = Button(2);  //increase
+Button button6 = Button(3);  //decrease
+Button button7 = Button(11);  //back
+Button button8 = Button(12);  //forward
+Button button9 = Button(A3); //select (Wah S1)
+Button setHoldThreshold(150);                                  //threshold for "isHeld"
+
  
  // ui setup
  
@@ -82,7 +93,7 @@ const int BUT_MAP[5][2] = {
                          {2, BUTTON_INCREASE}, 
                          {3, BUTTON_DECREASE}, 
                          {11, BUTTON_BACK}, 
-                         {12, BUTTON_SELECT}  //same as forward for now, later will be S1 on Wah
+                         {A3, BUTTON_SELECT}  //S1 on Wah
                     };
  
                             
@@ -159,7 +170,15 @@ void setup() {
   MIDI.begin();
   
   //ini pinMode for pedalOnePin
-  pinMode(A2, INPUT);
+  pinMode(A1, INPUT);                    //Wah Pedal
+  pinMode(A2, INPUT);                    //Volume Pedal
+  pinMode(A3, INPUT_PULLUP);      //Wah S1
+  
+  //ini pinMode for pedal buttons
+  pinMode(2, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
+  pinMode(11, INPUT_PULLUP);
+  pinMode(12, INPUT_PULLUP);
 
   lcd.begin(LCD_COLS, LCD_ROWS);
   
@@ -172,10 +191,14 @@ void setup() {
   Menu.enable(true); 
   
   
+  
+  
 }
 
 void loop() {
  Menu.checkInput();
+ standardOps();
+
  
 }
 
@@ -246,4 +269,24 @@ void uiSetVolume(){
   }
   Menu.enable(true);
 }
+
+   
+   void standardOps() {
+   if(button5.uniquePress()){
+    MIDI.sendProgramChange(40,1);      //Start/Stop loops
+  }
+  else if(button6.uniquePress()) {
+    MIDI.sendProgramChange(41,1);      //Next Loop
+  }
+  else if(button7.uniquePress()) {
+//    MIDI.sendProgramChange(3,3);      //need to determine functionality
+  }
+  else if(button8.uniquePress()) {          //need to determine functionality
+//    MIDI.sendProgramChange(4,4);
+  } 
+  if(button5.held()){
+    MIDI.sendProgramChange(42,1);        //Reset loop
+  }
+}
+  
 
