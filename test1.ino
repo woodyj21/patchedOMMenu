@@ -159,7 +159,7 @@ MENU_ITEM item_ccNum = {   {"Select Input"}, ITEM_VALUE, 0,  MENU_TARGET(&ccNum_
 /*Comment out, but don't delete yet.
 MENU_LIST const root_list[]   = { &item_checkme, &item_barme, &item_bazme, &item_bakme, &item_state, &item_testme, &item_voltest, &item_midiCCtoSend };
 */
-MENU_LIST const root_list[]   = { &item_testme, &item_voltest, &item_midiCCtoSend, &item_ccNum };
+MENU_LIST const root_list[]   = { &item_voltest, &item_midiCCtoSend, &item_ccNum };
 
 
                   // Root item is always created last, so we can add all other items to it
