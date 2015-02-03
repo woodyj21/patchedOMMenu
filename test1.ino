@@ -260,7 +260,6 @@ void uiSetVolume(){
   lcd.clear();
   Menu.enable(false);
   lcd.print("Volume is:");
-  lcd.setCursor(0,1);  //do i need this?
 
   
     while( Menu.checkInput() != BUTTON_BACK ) {
