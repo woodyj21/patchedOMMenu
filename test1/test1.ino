@@ -33,6 +33,8 @@ the "select button" for menu
  
 */
 
+ //init menu enable global variable
+ bool lcdMenuIsEnabled = true;  //need a way to bypass standardOps();
 
 
  // ini pedal analog pin
@@ -200,6 +202,7 @@ void setup() {
   //Menu.setAnalogButtonPin(BUT_PIN, BUT_MAP, BUT_THRESH);
   Menu.setDigitalButtonPins(BUT_MAP);
   Menu.enable(true); 
+  lcdMenuIsEnabled = true;
   
   
   
@@ -236,6 +239,7 @@ void uiClear() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Enter for Menu");
+  lcdMenuIsEnabled = false; //set up the way to bypass standardOps();
 }
 
 
@@ -275,7 +279,7 @@ void uiSetVolume(){
       lcd.setCursor(8,2);
       lcd.print(ccNum);
       delay(20);
-      MIDI.sendControlChange(midiCCtoSend, myVar, 1);    //trying to figure out midiCCtoSend
+      MIDI.sendControlChange(midiCCtoSend, myVar, ccNum);    //trying to figure out midiCCtoSend     //testing changed to display cc
       delay(20);
     ; // wait!
   }
@@ -284,6 +288,7 @@ void uiSetVolume(){
 
    
    void standardOps() {
+     if(lcdMenuIsEnabled == false) {
 	lcd.clear();
 	lcd.print("standardOps");
 	lcd.setCursor(0,2);
@@ -315,5 +320,5 @@ void uiSetVolume(){
     MIDI.sendProgramChange(42,1);        //Reset loop
   }
 }
-  
+   }  
 
