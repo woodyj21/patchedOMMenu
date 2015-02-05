@@ -259,19 +259,21 @@ void uiSetVolume(){
   int myVar;		//using this as pedal value
   lcd.clear();
   Menu.enable(false);
-  lcd.print("Volume is:");
+  lcd.print("Value:");
 
   
     while( Menu.checkInput() != BUTTON_BACK ) {
       myVar = constrain(map(analogRead(A2), 0, 48, 0, 127), 0, 127);  //MIDI does 0-127
-      lcd.clear();
-      lcd.setCursor(0,2);
-      lcd.print("Value:");
-      lcd.setCursor(6,2);
+      lcd.setCursor(8,1);
       lcd.print(myVar);
-      lcd.setCursor(9,2);
-      lcd.print("CC#:");
+      lcd.setCursor(0,2);
+      lcd.print("CC");
+      lcd.setCursor(2,2);
       lcd.print(midiCCtoSend);
+      lcd.setCursor(6,2);
+      lcd.print("cc");
+      lcd.setCursor(8,2);
+      lcd.print(ccNum);
       delay(20);
       MIDI.sendControlChange(midiCCtoSend, myVar, 1);    //trying to figure out midiCCtoSend
       delay(20);
@@ -284,7 +286,7 @@ void uiSetVolume(){
    void standardOps() {
 	lcd.clear();
 	lcd.print("standardOps");
-	lcd.setCursor(0,1);
+	lcd.setCursor(0,2);
    if(button5.uniquePress()){
     MIDI.sendProgramChange(40,1);      //Start/Stop loops
     lcd.print("button5");
